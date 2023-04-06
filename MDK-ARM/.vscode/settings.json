@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "auto_aim.h": "c",
+        "vision.h": "c"
+    }
+}
