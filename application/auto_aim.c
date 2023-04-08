@@ -56,11 +56,10 @@ void auto_aim_pid_clear (void)
   */
 void auto_aim_follow(void)
 {
-  auto_aim_ctrl.aim_pitch_channel=(int16_t)PID_calc(&auto_aim_pitch_pid,-vision_info.y,0);
-  auto_aim_ctrl.aim_yaw_channel=(int16_t)PID_calc(&auto_aim_yaw_pid,-vision_info.x,0);     
+  auto_aim_ctrl.aim_pitch_channel=(int16_t)PID_calc(&auto_aim_pitch_pid,-vision_info[auto_aim_ctrl.aim_flag-1].y,0);
+  auto_aim_ctrl.aim_yaw_channel=(int16_t)PID_calc(&auto_aim_yaw_pid,-vision_info[auto_aim_ctrl.aim_flag-1].x,0);     
+  
 }
-
-
 
 /**
   * @brief 
@@ -73,7 +72,7 @@ void auto_aim_control (void)
 {
   if(auto_aim_ctrl.aim_flag)//使能后运行本段程序
   {
-    if(vision_info.Data_CMD==0)//没有目标，持续给值，朝一个方向旋转搜寻目标
+    if(vision_info[auto_aim_ctrl.aim_flag-1].Data_CMD==0)//没有打击对象的目标，持续给值，朝一个方向旋转搜寻目标
     {
       AIM_TRIG_OFF;//拨弹关
       AIM_FRIC_OFF;//摩擦轮关
@@ -83,12 +82,12 @@ void auto_aim_control (void)
     else
     {
       auto_aim_follow();//对目标进行跟踪
-      if (vision_info.Data_CMD==1)//识别到目标，开始跟踪
+      if (vision_info[auto_aim_ctrl.aim_flag-1].Data_CMD==1)//识别到击打对象，开始跟踪
       {
         AIM_FRIC_ON;//摩擦轮开
         AIM_TRIG_OFF;//拨弹关
       }
-      else if(vision_info.Data_CMD==2) //已识别，并且可击打    
+      else if(vision_info[auto_aim_ctrl.aim_flag-1].Data_CMD==2) //已识别击打对象，并且可击打    
       {
         AIM_TRIG_ON;//拨弹开
       }
