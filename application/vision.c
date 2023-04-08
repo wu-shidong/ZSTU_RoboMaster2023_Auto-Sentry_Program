@@ -8,7 +8,7 @@ uint8_t USART1_RX_CNT =0;
 uint8_t USART1_RX_STA =0;
 #define USART1_TX_BUF_LENGHT 512
 uint8_t usart1_buf[USART1_TX_BUF_LENGHT];
-Vision_Data vision_info;
+Vision_Data vision_info[2];
 
 void usart1_vision_init (void)
 {
@@ -81,10 +81,13 @@ void USART1_IRQHandler(void)
         {
             USART1_RX_CNT = 0;
             USART1_RX_STA = 0;
-//            if(vision_temp.Data_ID==0x01)
-//            {
-                memcpy((void *)(&vision_info),(void *)(&vision_temp),sizeof(Vision_Data));
-//            }
+           if(vision_temp.Data_ID==0x31)
+            {
+                memcpy((void *)(&vision_info[0]),(void *)(&vision_temp),sizeof(Vision_Data));
+            }else if(vision_temp.Data_ID==0x32)
+            {
+                memcpy((void *)(&vision_info[1]),(void *)(&vision_temp),sizeof(Vision_Data));
+            }
         }			
     }
     //idle interrupt ø’œ–÷–∂œ

@@ -20,5 +20,5 @@ typedef struct
 	uint8_t end1;         //֡β1
 	uint8_t end2;         //֡β2
 }Vision_Data;
-extern Vision_Data vision_info;
+extern Vision_Data vision_info[2];
 #endif

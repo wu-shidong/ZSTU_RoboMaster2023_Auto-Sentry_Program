@@ -6,7 +6,6 @@
 #define AUTO_AIM_PID_KI 0.0f
 #define AUTO_AIM_PID_KD 0.0001f
 
-
 #define AUTO_AIM_PITCH_PID_KP 1.0f    //自瞄PITCH轴的比例参数P值
 #define AUTO_AIM_PITCH_PID_KI 0.0f    //自瞄PITCH轴的积分参数I值
 #define AUTO_AIM_PITCH_PID_KD 0.0f //自瞄PITCH轴的微分参数D值
@@ -34,7 +33,7 @@
 //自瞄控制输出结构体，可以根据需要自行添加参数
 typedef struct
 {
-	uint8_t aim_flag;        //自瞄标志位         [0]:失能自瞄。[1]：使能自瞄
+	uint8_t aim_flag;        //自瞄标志位         [0]:失能自瞄。[1]：使能自瞄,打击对象是红方  [2]：使能自瞄,打击对象是蓝方
 	uint8_t aim_trigger;     //自瞄发射弹丸标志位  [0]:失能发射。[1]：使能发射
 	uint8_t aim_fric;      	  //自瞄摩擦轮标志位   [0]:失能摩擦。[1]：使能摩擦
 	int16_t aim_pitch_channel;
