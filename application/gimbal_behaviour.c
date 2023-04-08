@@ -504,8 +504,8 @@ static void gimbal_behavour_set(gimbal_control_t *gimbal_mode_set)
     }
     else if (switch_is_mid(gimbal_mode_set->gimbal_rc_ctrl->rc.s[GIMBAL_MODE_CHANNEL]))
     {
-         gimbal_behaviour = GIMBAL_RELATIVE_ANGLE;
-       // gimbal_behaviour = GIMBAL_ABSOLUTE_ANGLE;
+         //gimbal_behaviour = GIMBAL_RELATIVE_ANGLE;
+        gimbal_behaviour = GIMBAL_ABSOLUTE_ANGLE;
     }
     else if (switch_is_up(gimbal_mode_set->gimbal_rc_ctrl->rc.s[GIMBAL_MODE_CHANNEL]))
     {
@@ -717,23 +717,20 @@ static void gimbal_absolute_angle_control(fp32 *yaw, fp32 *pitch, gimbal_control
 
     static int16_t yaw_channel = 0, pitch_channel = 0;
 /*原始遥控器赋值程序*************************************************************************************************/
-    rc_deadband_limit(gimbal_control_set->gimbal_rc_ctrl->rc.ch[YAW_CHANNEL], yaw_channel, RC_DEADBAND);
-    rc_deadband_limit(gimbal_control_set->gimbal_rc_ctrl->rc.ch[PITCH_CHANNEL], pitch_channel, RC_DEADBAND);
+    // rc_deadband_limit(gimbal_control_set->gimbal_rc_ctrl->rc.ch[YAW_CHANNEL], yaw_channel, RC_DEADBAND);
+    // rc_deadband_limit(gimbal_control_set->gimbal_rc_ctrl->rc.ch[PITCH_CHANNEL], pitch_channel, RC_DEADBAND);
 
-    *yaw = yaw_channel * YAW_RC_SEN - gimbal_control_set->gimbal_rc_ctrl->mouse.x * YAW_MOUSE_SEN;
-    *pitch = -pitch_channel * PITCH_RC_SEN + gimbal_control_set->gimbal_rc_ctrl->mouse.y * PITCH_MOUSE_SEN;
+    // *yaw = yaw_channel * YAW_RC_SEN - gimbal_control_set->gimbal_rc_ctrl->mouse.x * YAW_MOUSE_SEN;
+    // *pitch = -pitch_channel * PITCH_RC_SEN + gimbal_control_set->gimbal_rc_ctrl->mouse.y * PITCH_MOUSE_SEN;
 /*****************************************************************************************************************/		
 		
-		
-		
-//    rc_deadband_limit(auto_aim_ctrl.aim_yaw_channel, yaw_channel, AUTO_AIM_DEADBAND);
-//    rc_deadband_limit(auto_aim_ctrl.aim_pitch_channel, pitch_channel, AUTO_AIM_DEADBAND);		
-//    *yaw = yaw_channel*YAW_VISION_SEN;
-//    *pitch = -pitch_channel*PITCH_VISION_SEN;
-		
-		
-		
-		
+/*加入自瞄的给值程序**********************************************************************/		
+    rc_deadband_limit(gimbal_control_set->gimbal_rc_ctrl->rc.ch[YAW_CHANNEL], yaw_channel, RC_DEADBAND);
+    rc_deadband_limit(gimbal_control_set->gimbal_rc_ctrl->rc.ch[PITCH_CHANNEL], pitch_channel, RC_DEADBAND);
+   *yaw = yaw_channel * YAW_RC_SEN+auto_aim_ctrl.aim_yaw_channel*AUTO_AIM_YAW_SEN;//先进行遥控器死区控制,再进行视觉增量控制。
+   *pitch = -pitch_channel * PITCH_RC_SEN-auto_aim_ctrl.aim_pitch_channel*AUTO_AIM_PITCH_SEN;//先进行遥控器死区控制,再进行视觉增量控制。
+/*****************************************************************************************/	
+
     {
         static uint16_t last_turn_keyboard = 0;
         static uint8_t gimbal_turn_flag = 0;

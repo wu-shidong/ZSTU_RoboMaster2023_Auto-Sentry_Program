@@ -94,5 +94,4 @@ void auto_aim_control (void)
       }
     }
   }
-
 }

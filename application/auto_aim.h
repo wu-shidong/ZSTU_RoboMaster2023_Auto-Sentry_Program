@@ -20,6 +20,10 @@
 
 #define AUTO_AIM_DEADBAND 5            //自瞄死区设置
 
+#define AUTO_AIM_YAW_SEN    -0.000002f
+#define AUTO_AIM_PITCH_SEN  -0.000006f //0.005
+
+
 #define AIM_TRIG_OFF  auto_aim_ctrl.aim_trigger=0  //自瞄拨弹关
 #define AIM_TRIG_ON  auto_aim_ctrl.aim_trigger=1   //自瞄拨弹开
 
