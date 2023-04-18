@@ -81,12 +81,15 @@ void USART1_IRQHandler(void)
         {
             USART1_RX_CNT = 0;
             USART1_RX_STA = 0;
-           if(vision_temp.Data_ID==0x31)
+           if(vision_temp.Data_ID==0x01)
             {
                 memcpy((void *)(&vision_info[0]),(void *)(&vision_temp),sizeof(Vision_Data));
-            }else if(vision_temp.Data_ID==0x32)
+            }else if(vision_temp.Data_ID==0x02)
             {
                 memcpy((void *)(&vision_info[1]),(void *)(&vision_temp),sizeof(Vision_Data));
+            }else
+            {
+                
             }
         }			
     }
